@@ -1,3 +1,6 @@
 body{
   background-color: grey,
 }
+#app{
+  height: 100vh
+}
