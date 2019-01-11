@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -8,137 +8,318 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Panel = function (_React$Component) {
-  _inherits(Panel, _React$Component);
+var CalculatorPanel = function (_React$Component) {
+  _inherits(CalculatorPanel, _React$Component);
 
-  function Panel() {
+  function CalculatorPanel() {
     var _ref;
 
     var _temp, _this, _ret;
 
-    _classCallCheck(this, Panel);
+    _classCallCheck(this, CalculatorPanel);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Panel.__proto__ || Object.getPrototypeOf(Panel)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      keys: [{
-        keyCode: 81,
-        keyTrigger: 'Q',
-        id: 'Chord-1',
-        url: 'https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3'
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CalculatorPanel.__proto__ || Object.getPrototypeOf(CalculatorPanel)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      buttons: [{
+        id: "zero",
+        letter: "0",
+        value: 0
       }, {
-        keyCode: 87,
-        keyTrigger: 'W',
-        id: 'Chord-2',
-        url: 'https://s3.amazonaws.com/freecodecamp/drums/Chord_2.mp3'
+        id: "one",
+        letter: "1",
+        value: 1
       }, {
-        keyCode: 69,
-        keyTrigger: 'E',
-        id: 'Chord-3',
-        url: 'https://s3.amazonaws.com/freecodecamp/drums/Chord_3.mp3'
+        id: "two",
+        letter: "2",
+        value: 2
       }, {
-        keyCode: 65,
-        keyTrigger: 'A',
-        id: 'Shaker',
-        url: 'https://s3.amazonaws.com/freecodecamp/drums/Give_us_a_light.mp3'
+        id: "three",
+        letter: "3",
+        value: 3
       }, {
-        keyCode: 83,
-        keyTrigger: 'S',
-        id: 'Open-HH',
-        url: 'https://s3.amazonaws.com/freecodecamp/drums/Dry_Ohh.mp3'
+        id: "four",
+        letter: "4",
+        value: 4
       }, {
-        keyCode: 68,
-        keyTrigger: 'D',
-        id: 'Closed-HH',
-        url: 'https://s3.amazonaws.com/freecodecamp/drums/Bld_H1.mp3'
+        id: "five",
+        letter: "5",
+        value: 5
       }, {
-        keyCode: 90,
-        keyTrigger: 'Z',
-        id: 'Punchy-Kick',
-        url: 'https://s3.amazonaws.com/freecodecamp/drums/punchy_kick_1.mp3'
+        id: "six",
+        letter: "6",
+        value: 6
       }, {
-        keyCode: 88,
-        keyTrigger: 'X',
-        id: 'Side-Stick',
-        url: 'https://s3.amazonaws.com/freecodecamp/drums/side_stick_1.mp3'
+        id: "seven",
+        letter: "7",
+        value: 7
       }, {
-        keyCode: 67,
-        keyTrigger: 'C',
-        id: 'Snare',
-        url: 'https://s3.amazonaws.com/freecodecamp/drums/Brk_Snr.mp3'
+        id: "eight",
+        letter: "8",
+        value: 8
+      }, {
+        id: "nine",
+        letter: "9",
+        value: 9
+      }, {
+        id: "add",
+        letter: "+"
+      }, {
+        id: "subtract",
+        letter: "-"
+      }, {
+        id: "multiply",
+        letter: "X"
+      }, {
+        id: "divide",
+        letter: "/"
+      }, {
+        id: "clear",
+        letter: "AC"
+      }, {
+        id: "equals",
+        letter: "="
+      }, {
+        id: "decimal",
+        letter: "."
       }],
-      currentName: ""
-    }, _this.processClick = function (e) {
-      var current = e.target.firstElementChild.id;
-      document.getElementById(current).play();
-      _this.setState({
-        currentName: current
-      });
-      e.preventDefault();
-    }, _this.handleKeyPress = function (e) {
-      var key = e.keyCode;
-      _this.state.keys.map(function (keyP, index) {
-        if (keyP.keyCode === key) {
-          document.getElementById(index).click();
+      totalSum: 0,
+      rawSum: "",
+      previousVal: ""
+    }, _this.calculate = function (phrase) {
+      var bugFix = phrase.replace("=", "");
+      var fixedStr = bugFix.replace("X", "*");
+      var matches = fixedStr.match(/[+-\/\*]{2,}/);
+      var newStr = "";
+      if (matches) {
+        for (var i = 0; i < matches.length; i++) {
+          if (fixedStr.includes(matches[i])) {
+            newStr = fixedStr.replace(matches[i], matches[i][matches[i].length - 1]);
+          }
         }
+      } else {
+        newStr = fixedStr;
+      }
+      var ans = eval(newStr);
+      _this.setState({
+        totalSum: ans,
+        previousVal: "" + ans
+      });
+    }, _this.processClick = function (e) {
+      var id = e.target.id;
+      var val = e.target.innerText;
+      if (val === "=") {
+        var text = _this.state.previousVal;
+        return _this.calculate(text);
+      }
+      var sum1 = _this.state.previousVal;
+      var sum = sum1 + ("" + val);
+      val = val.replace(/(\r\n|\n|\r)/gm, "");
+      sum = sum.replace(/(\r\n|\n|\r)/gm, "");
+      if (sum.indexOf("0") === 0 && val == 0) {
+        return;
+      }
+      if (sum.match(/\.[0-9]+\.|\.{2,}/) && val == ".") {
+        return;
+      }
+      _this.setState({
+        totalSum: sum,
+        rawSum: sum,
+        previousVal: sum
+      });
+      e.preventDefault;
+    }, _this.clear = function (e) {
+      _this.setState({
+        totalSum: "0",
+        rawSum: "",
+        previousVal: ""
       });
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
-  _createClass(Panel, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      document.body.addEventListener('keyup', this.handleKeyPress);
-      document.body.addEventListener('keydown', this.handleKeyPress);
-    }
-  }, {
-    key: 'render',
+  _createClass(CalculatorPanel, [{
+    key: "render",
     value: function render() {
-      var _this2 = this;
-
       return React.createElement(
-        'div',
-        { id: 'drum-machine', style: { "border": "solid 2px grey" }, className: 'container bg-light m-5 p-2 mx-auto' },
+        "div",
+        { className: "container text-center" },
         React.createElement(
-          'h1',
-          { className: 'display-4 text-center d-block mb-3' },
-          'Sound Board'
+          "h1",
+          { className: "display-3 m-2" },
+          "React Calculator"
         ),
         React.createElement(
-          'div',
-          { className: 'row' },
+          "div",
+          { id: "calculator", className: "container" },
           React.createElement(
-            'div',
-            { className: 'col-md-6' },
+            "div",
+            { className: "row" },
+            React.createElement(Display, { rawSum: this.state.rawSum, totalSum: this.state.totalSum })
+          ),
+          React.createElement(
+            "div",
+            { className: "row" },
             React.createElement(
-              'div',
-              { className: 'row m-2' },
-              this.state.keys.map(function (button, index) {
-                return React.createElement(
-                  'div',
-                  { className: 'col-md-4 d-inline p-1' },
-                  React.createElement(Button, { processClick: _this2.processClick, namel: _this2.state.keys[index].keyTrigger, audio: _this2.state.keys[index].url, audioId: _this2.state.keys[index].keyTrigger, id: index })
-                );
-              })
+              "div",
+              { className: "col-md-6 p-0 border" },
+              React.createElement(Button, { processClick: this.clear, id: this.state.buttons[14].id, letter: this.state.buttons[14].letter })
+            ),
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[13].id, letter: this.state.buttons[13].letter })
+            ),
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[12].id, letter: this.state.buttons[12].letter })
             )
           ),
           React.createElement(
-            'div',
-            { className: 'col-md-6' },
-            React.createElement(TextDisplay, { currentName: this.state.currentName })
+            "div",
+            { className: "row" },
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[7].id, letter: this.state.buttons[7].letter })
+            ),
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[8].id, letter: this.state.buttons[8].letter })
+            ),
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[9].id, letter: this.state.buttons[9].letter })
+            ),
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[11].id, letter: this.state.buttons[11].letter })
+            )
+          ),
+          React.createElement(
+            "div",
+            { className: "row" },
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[4].id, letter: this.state.buttons[4].letter })
+            ),
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[5].id, letter: this.state.buttons[5].letter })
+            ),
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[6].id, letter: this.state.buttons[6].letter })
+            ),
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[10].id, letter: this.state.buttons[10].letter })
+            )
+          ),
+          React.createElement(
+            "div",
+            { className: "row" },
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[1].id, letter: this.state.buttons[1].letter })
+            ),
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[2].id, letter: this.state.buttons[2].letter })
+            ),
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[3].id, letter: this.state.buttons[3].letter })
+            ),
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border-bottom border-left border-right" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[15].id, letter: this.state.buttons[15].letter })
+            )
+          ),
+          React.createElement(
+            "div",
+            { className: "row" },
+            React.createElement(
+              "div",
+              { className: "col-md-6 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[0].id, letter: this.state.buttons[0].letter })
+            ),
+            React.createElement(
+              "div",
+              { className: "col-md-3 p-0 border" },
+              React.createElement(Button, { processClick: this.processClick, id: this.state.buttons[16].id, letter: this.state.buttons[16].letter })
+            ),
+            React.createElement("div", { className: "col-md-3 p-0 border-bottom border-left border-right bg-light" })
           )
+        ),
+        React.createElement(
+          "p",
+          { className: "lead mt-5" },
+          "A project by: Kevin Lin"
+        ),
+        React.createElement(
+          "small",
+          null,
+          "Coded in the Javascript Framework React JS"
         )
       );
     }
   }]);
 
-  return Panel;
+  return CalculatorPanel;
 }(React.Component);
 
-var Button = function (_Panel) {
-  _inherits(Button, _Panel);
+var Display = function (_CalculatorPanel) {
+  _inherits(Display, _CalculatorPanel);
+
+  function Display() {
+    _classCallCheck(this, Display);
+
+    return _possibleConstructorReturn(this, (Display.__proto__ || Object.getPrototypeOf(Display)).apply(this, arguments));
+  }
+
+  _createClass(Display, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        { className: "container-fluid bg-dark text-white text-right rounded-top border" },
+        React.createElement(
+          "div",
+          { className: "border-bottom m-2" },
+          React.createElement(
+            "p",
+            { className: "lead" },
+            this.props.rawSum
+          )
+        ),
+        React.createElement(
+          "div",
+          { id: "display", className: "lead" },
+          this.props.totalSum
+        )
+      );
+    }
+  }]);
+
+  return Display;
+}(CalculatorPanel);
+
+var Button = function (_CalculatorPanel2) {
+  _inherits(Button, _CalculatorPanel2);
 
   function Button() {
     _classCallCheck(this, Button);
@@ -147,56 +328,17 @@ var Button = function (_Panel) {
   }
 
   _createClass(Button, [{
-    key: 'render',
+    key: "render",
     value: function render() {
       return React.createElement(
-        'div',
-        null,
-        React.createElement(
-          'button',
-          { id: this.props.id, onClick: this.props.processClick, className: 'btn-block rounded btn btn-primary drum-pad' },
-          React.createElement('audio', { className: 'clip', id: this.props.audioId, src: this.props.audio, type: 'audio/mpeg' }),
-          this.props.namel
-        )
+        "button",
+        { onClick: this.props.processClick, id: this.props.id, className: "w-100 rounded-0 btn-secondary lead my-auto py-auto" },
+        this.props.letter
       );
     }
   }]);
 
   return Button;
-}(Panel);
+}(CalculatorPanel);
 
-var TextDisplay = function (_Panel2) {
-  _inherits(TextDisplay, _Panel2);
-
-  function TextDisplay() {
-    _classCallCheck(this, TextDisplay);
-
-    return _possibleConstructorReturn(this, (TextDisplay.__proto__ || Object.getPrototypeOf(TextDisplay)).apply(this, arguments));
-  }
-
-  _createClass(TextDisplay, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        { className: 'text-center' },
-        React.createElement(
-          'p',
-          { 'class': 'lead' },
-          'Key Name'
-        ),
-        React.createElement(
-          'p',
-          { id: 'display', className: 'text-center' },
-          ' ',
-          this.props.currentName,
-          ' '
-        )
-      );
-    }
-  }]);
-
-  return TextDisplay;
-}(Panel);
-
-ReactDOM.render(React.createElement(Panel, null), document.querySelector("#body"));
+ReactDOM.render(React.createElement(CalculatorPanel, null), document.getElementById("body"));
