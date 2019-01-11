@@ -3,6 +3,6 @@ This is a project made as a project for freeCodeCamp Front End Frameworks certif
 <br>
 A Pen created at CodePen.io. You can find this one at https://codepen.io/kevin-lin/pen/qJdajY.
 <br>
-Github pages link: https://klin4744.github.io/Drum-Machine/ (currently doesn't work, will fix soon!)
+Github pages link: https://klin4744.github.io/Drum-Machine/ 
 
  
